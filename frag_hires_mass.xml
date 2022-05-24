@@ -1,0 +1,23 @@
+<tool id="frag_hires_mass" name="Candidate hi-res mass of predicted low-res fragments" version="0.1.0" python_template_version="3.5">
+    <description><![CDATA[
+Take a MSP file with predicted fragment peaks at low-res and generate the "known features" table of tentative hi-res peaks suitable as input to hybrid apLCMS
+    ]]></description>
+    <requirements>
+	<container type="docker">ljocha/fragmass</container>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        Rscript fragmass.R --rtdev '$rtdev' --mzdev '$mzdev' --mzrange '$mzrange' '$input' > '$output'
+    ]]></command>
+    <inputs>
+	<param name="input" type="data" format="msp" help="MSP with predicted peaks" />
+	<param name="rtdev" type="float" value="0.15" help="Standard deviation in RT (s)"/>
+	<param name="mzdev" type="float" value="1.0" help="Standard deviation in m/z (ppm)"/>
+	<param name="mzrange" type="float" value="0.15" help="Searched range around nominal mass (Da)"/>
+    </inputs>
+    <outputs>
+	<data name="output" format="tabular" />
+    </outputs>
+    <help><![CDATA[
+        Use with peak prediction (https://is.muni.cz/auth/th/dz62r/) applied on previous run of apLCMS - RAMClustR - matchMS chain.
+    ]]></help>
+</tool>
