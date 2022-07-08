@@ -14,3 +14,5 @@ RUN Rscript -e 'BiocManager::install("MsBackendMsp")'
 RUN Rscript -e 'install.packages("argparser")'
 RUN Rscript -e 'install.packages("Rfast")'
 RUN apt install -y libgsl23
+RUN Rscript -e 'install.packages("doParallel")'
+RUN Rscript -e 'install.packages("arrow")'
