@@ -62,9 +62,6 @@ out <- foreach(i=1:length(sp),.combine=rbind,.packages=c('rcdk','purrr','Rfast')
 			RT_mean <- c(RT_mean,rt)
 			RT_min <- c(RT_min,rt-mmax*argv$rtdev)
 			RT_max <- c(RT_max,rt+mmax*argv$rtdev)
-#cat(paste("m:",m,"\n"))
-#cat(paste("mass:",length(mass),"\n"))
-#cat(paste("m.z:",length(m.z),"\n"))
 		}
 	}
 	
@@ -72,18 +69,6 @@ out <- foreach(i=1:length(sp),.combine=rbind,.packages=c('rcdk','purrr','Rfast')
 	ion.type <- rep('M+H',l)
 	RT_sd <- rep(argv$rtdev,l)
 	na <- rep(NA,l)
-
-#print(length(na))
-#print(length(mass))
-#print(length(m.z))
-#print(length(mz_min))
-#print(length(mz_max))
-#print(length(RT_mean))
-#print(length(RT_min))
-#print(length(RT_max))
-#print(length(ion.type))
-#print(length(RT_sd))
-#print("uff")
 
 	data.frame(
 		chemical_formula=na,
