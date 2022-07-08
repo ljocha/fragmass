@@ -6,7 +6,8 @@ Take a MSP file with predicted fragment peaks at low-res and generate the "known
 	<container type="docker">ljocha/fragmass</container>
     </requirements>
     <command detect_errors="exit_code"><![CDATA[
-        Rscript fragmass.R --rtdev '$rtdev' --mzdev '$mzdev' --mzrange '$mzrange' '$input' > '$output'
+        sed 's/COMPOUND_NAME/NAME/' '$input' > in_tmp.msp &&
+        Rscript ${__tool_directory__}/fragmass.R --rtdev '$rtdev' --mzdev '$mzdev' --mzrange '$mzrange' 'in_tmp.msp' > '$output'
     ]]></command>
     <inputs>
 	<param name="input" type="data" format="msp" help="MSP with predicted peaks" />
