@@ -1,4 +1,4 @@
-<tool id="frag_hires_mass" name="Candidate hi-res mass of predicted low-res fragments" version="0.1.0" python_template_version="3.5">
+<tool id="frag_hires_mass" name="Candidate hi-res mass of predicted low-res fragments" version="0.1.1" python_template_version="3.5">
     <description><![CDATA[
 Take a MSP file with predicted fragment peaks at low-res and generate the "known features" table of tentative hi-res peaks suitable as input to hybrid apLCMS
     ]]></description>
@@ -7,7 +7,7 @@ Take a MSP file with predicted fragment peaks at low-res and generate the "known
     </requirements>
     <command detect_errors="exit_code"><![CDATA[
         sed 's/COMPOUND_NAME/NAME/' '$input' > in_tmp.msp &&
-        Rscript ${__tool_directory__}/fragmass.R --rtdev '$rtdev' --mzdev '$mzdev' --mzrange '$mzrange' 'in_tmp.msp' > '$output'
+        Rscript ${__tool_directory__}/fragmass.R --rtdev '$rtdev' --mzdev '$mzdev' --mzrange '$mzrange' 'in_tmp.msp' '$output'
     ]]></command>
     <inputs>
 	<param name="input" type="data" format="msp" help="MSP with predicted peaks" />
@@ -16,7 +16,7 @@ Take a MSP file with predicted fragment peaks at low-res and generate the "known
 	<param name="mzrange" type="float" value="0.15" help="Searched range around nominal mass (Da)"/>
     </inputs>
     <outputs>
-	<data name="output" format="tabular" />
+	<data name="output" format="parquet" />
     </outputs>
     <help><![CDATA[
         Use with peak prediction (https://is.muni.cz/auth/th/dz62r/) applied on previous run of apLCMS - RAMClustR - matchMS chain.
