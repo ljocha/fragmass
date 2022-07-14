@@ -1,4 +1,4 @@
-<tool id="frag_hires_mass" name="Candidate hi-res mass of predicted low-res fragments" version="0.1.1" python_template_version="3.5">
+<tool id="frag_hires_mass" name="Candidate hi-res mass of predicted low-res fragments" version="0.1.2" python_template_version="3.5">
     <description><![CDATA[
 Take a MSP file with predicted fragment peaks at low-res and generate the "known features" table of tentative hi-res peaks suitable as input to hybrid apLCMS
     ]]></description>
@@ -7,13 +7,27 @@ Take a MSP file with predicted fragment peaks at low-res and generate the "known
     </requirements>
     <command detect_errors="exit_code"><![CDATA[
         sed 's/COMPOUND_NAME/NAME/' '$input' > in_tmp.msp &&
-        Rscript ${__tool_directory__}/fragmass.R --rtdev '$rtdev' --mzdev '$mzdev' --mzrange '$mzrange' 'in_tmp.msp' '$output'
+        Rscript ${__tool_directory__}/fragmass.R 
+	#if $rtdev
+		--rtdev '$rtdev' 
+	#end if
+	#if $mzdev
+		--mzdev '$mzdev' 
+	#end if
+	#if $mzrange
+		--mzrange '$mzrange' 
+	#end if
+	#if $known_table
+		--known_table '$known_table'
+	#end if
+		'in_tmp.msp' '$output'
     ]]></command>
     <inputs>
 	<param name="input" type="data" format="msp" help="MSP with predicted peaks" />
-	<param name="rtdev" type="float" value="0.15" help="Standard deviation in RT (s)"/>
-	<param name="mzdev" type="float" value="1.0" help="Standard deviation in m/z (ppm)"/>
-	<param name="mzrange" type="float" value="0.15" help="Searched range around nominal mass (Da)"/>
+	<param name="known_table" type="data" format="parquet" optional="true" help="known features table (apLCMS)" />
+	<param name="rtdev" type="float" optional="true" value="0.15" help="Standard deviation in RT (s)"/>
+	<param name="mzdev" type="float" optional="true" value="1.0" help="Relative standard deviation in m/z"/>
+	<param name="mzrange" type="float" optional="true" value="0.15" help="Searched range around nominal mass (Da)"/>
     </inputs>
     <outputs>
 	<data name="output" format="parquet" />
